@@ -1,0 +1,23 @@
+[profile.release]
+debug = true
+lto = "thin"
+
+[workspace]
+members = [
+    "proto",
+]
+
+[workspace.package]
+version = "0.1.0"
+authors = [
+    "William Brown <william@blackhats.net.au>",
+    ]
+rust-version = "1.64"
+edition = "2021"
+license = "MPL-2.0"
+homepage = "https://github.com/kanidm/scim/"
+repository = "https://github.com/kanidm/scim/"
+keywords = ["scim", "protocol", "authentication", "chaos"]
+
+[workspace.dependencies]
+

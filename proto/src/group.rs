@@ -62,7 +62,7 @@ impl Into<ScimComplexAttr> for Member {
 struct Group {
     id: Uuid,
     external_id: Option<String>,
-    meta: ScimMeta,
+    meta: Option<ScimMeta>,
 
     display_name: String,
     members: Vec<Member>,

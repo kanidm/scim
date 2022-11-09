@@ -560,7 +560,7 @@ impl Into<ScimComplexAttr> for Group {
 struct User {
     id: Uuid,
     external_id: Option<String>,
-    meta: ScimMeta,
+    meta: Option<ScimMeta>,
     // required, must be unique, string.
     user_name: String,
     // Components of the users name.

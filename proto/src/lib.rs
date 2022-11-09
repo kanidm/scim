@@ -29,6 +29,7 @@ pub mod group;
 pub mod user;
 
 pub mod prelude {
+    pub use crate::ScimEntry;
     pub use crate::constants::*;
     pub use crate::error::*;
 }
@@ -61,7 +62,7 @@ enum ScimSimpleAttr {
 */
 
 #[derive(Serialize, Debug, Clone)]
-enum ScimSimpleAttr {
+pub enum ScimSimpleAttr {
     String(String),
     Bool(bool),
     Number(Number),
@@ -92,9 +93,9 @@ impl Into<Value> for ScimSimpleAttr {
 }
 
 #[derive(Serialize, Debug, Clone)]
-struct ScimComplexAttr {
+pub struct ScimComplexAttr {
     // I don't think this needs to be multivalue in the simpleAttr part.
-    attrs: BTreeMap<String, ScimSimpleAttr>,
+    pub attrs: BTreeMap<String, ScimSimpleAttr>,
 }
 
 impl TryFrom<JsonMap<String, Value>> for ScimComplexAttr {
@@ -129,7 +130,7 @@ impl Into<Value> for ScimComplexAttr {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(try_from = "Value", into = "Value")]
-enum ScimAttr {
+pub enum ScimAttr {
     SingleSimple(ScimSimpleAttr),
     SingleComplex(ScimComplexAttr),
     MultiSimple(Vec<ScimSimpleAttr>),
@@ -199,7 +200,7 @@ struct ScimMetaRaw {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(try_from = "ScimMetaRaw", into = "ScimMetaRaw")]
-struct ScimMeta {
+pub struct ScimMeta {
     resource_type: String,
     created: OffsetDateTime,
     last_modified: OffsetDateTime,
@@ -265,14 +266,15 @@ impl Into<ScimMetaRaw> for ScimMeta {
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
-struct ScimEntry {
-    schemas: Vec<String>,
-    id: Uuid,
+pub struct ScimEntry {
+    pub schemas: Vec<String>,
+    pub id: Uuid,
     #[serde(skip_serializing_if = "Option::is_none")]
-    external_id: Option<String>,
-    meta: ScimMeta,
+    pub external_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub meta: Option<ScimMeta>,
     #[serde(flatten)]
-    attrs: BTreeMap<String, ScimAttr>,
+    pub attrs: BTreeMap<String, ScimAttr>,
 }
 
 #[cfg(test)]

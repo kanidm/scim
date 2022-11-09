@@ -1,5 +1,5 @@
 [package]
-name = "scim"
+name = "scim_proto"
 description = "SCIM protocol bindings for Rust"
 
 version.workspace = true

@@ -1,3 +1,4 @@
+#[macro_export]
 macro_rules! get_string {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -10,6 +11,7 @@ macro_rules! get_string {
     };
 }
 
+#[macro_export]
 macro_rules! get_uuid {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -25,6 +27,7 @@ macro_rules! get_uuid {
     };
 }
 
+#[macro_export]
 macro_rules! get_url {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -40,6 +43,7 @@ macro_rules! get_url {
     };
 }
 
+#[macro_export]
 macro_rules! get_option_string {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -52,6 +56,7 @@ macro_rules! get_option_string {
     };
 }
 
+#[macro_export]
 macro_rules! get_option_url {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -67,6 +72,7 @@ macro_rules! get_option_url {
     };
 }
 
+#[macro_export]
 macro_rules! get_option_bool {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -79,6 +85,7 @@ macro_rules! get_option_bool {
     };
 }
 
+#[macro_export]
 macro_rules! get_option_single_string {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -110,6 +117,7 @@ macro_rules! get_option_single_datetime {
 }
 */
 
+#[macro_export]
 macro_rules! get_option_single_url {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -125,6 +133,7 @@ macro_rules! get_option_single_url {
     };
 }
 
+#[macro_export]
 macro_rules! try_from_option_single_string {
     ($value_attrs:expr, $key:expr, $ty:ident) => {
         $value_attrs
@@ -137,6 +146,7 @@ macro_rules! try_from_option_single_string {
     };
 }
 
+#[macro_export]
 macro_rules! get_option_single_complex {
     ($value_attrs:expr, $key:expr, $ty:ident) => {
         $value_attrs
@@ -149,6 +159,7 @@ macro_rules! get_option_single_complex {
     };
 }
 
+#[macro_export]
 macro_rules! get_single_string {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -161,6 +172,7 @@ macro_rules! get_single_string {
     };
 }
 
+#[macro_export]
 macro_rules! get_single_bool {
     ($value_attrs:expr, $key:expr) => {
         $value_attrs
@@ -173,6 +185,7 @@ macro_rules! get_single_bool {
     };
 }
 
+#[macro_export]
 macro_rules! get_option_multi_complex {
     ($value_attrs:expr, $key:expr, $ty:ident) => {
         $value_attrs
@@ -189,6 +202,7 @@ macro_rules! get_option_multi_complex {
     };
 }
 
+#[macro_export]
 macro_rules! set_bool {
     ($value_attrs:expr, $key:expr, $val:expr) => {
         $value_attrs.insert(
@@ -198,6 +212,7 @@ macro_rules! set_bool {
     };
 }
 
+#[macro_export]
 macro_rules! set_string {
     ($value_attrs:expr, $key:expr, $val:expr) => {
         $value_attrs.insert(
@@ -207,6 +222,8 @@ macro_rules! set_string {
     };
 }
 
+
+#[macro_export]
 macro_rules! set_option_string {
     ($value_attrs:expr, $key:expr, $val:expr) => {
         if let Some(val) = $val {
@@ -218,6 +235,7 @@ macro_rules! set_option_string {
     };
 }
 
+#[macro_export]
 macro_rules! set_option_to_string {
     ($value_attrs:expr, $key:expr, $val:expr) => {
         if let Some(val) = $val {
@@ -229,6 +247,19 @@ macro_rules! set_option_to_string {
     };
 }
 
+#[macro_export]
+macro_rules! set_option_u32 {
+    ($value_attrs:expr, $key:expr, $val:expr) => {
+        if let Some(val) = $val {
+            $value_attrs.insert(
+                $key.to_string(),
+                ScimAttr::SingleSimple(ScimSimpleAttr::Number(val.into())),
+            );
+        }
+    };
+}
+
+#[macro_export]
 macro_rules! set_option_complex {
     ($value_attrs:expr, $key:expr, $val:expr) => {
         if let Some(val) = $val {
@@ -237,6 +268,7 @@ macro_rules! set_option_complex {
     };
 }
 
+#[macro_export]
 macro_rules! set_multi_complex {
     ($value_attrs:expr, $key:expr, $val:expr) => {
         if !$val.is_empty() {

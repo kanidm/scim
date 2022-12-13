@@ -29,7 +29,7 @@ pub mod group;
 pub mod user;
 
 pub mod prelude {
-    pub use crate::ScimEntry;
+    pub use crate::{ScimEntry, ScimAttr, ScimSimpleAttr, ScimMeta, ScimComplexAttr};
     pub use crate::constants::*;
     pub use crate::error::*;
 }
@@ -61,7 +61,7 @@ enum ScimSimpleAttr {
 }
 */
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone, PartialEq, Eq)]
 pub enum ScimSimpleAttr {
     String(String),
     Bool(bool),
@@ -92,7 +92,7 @@ impl Into<Value> for ScimSimpleAttr {
     }
 }
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize, Debug, Clone, PartialEq, Eq)]
 pub struct ScimComplexAttr {
     // I don't think this needs to be multivalue in the simpleAttr part.
     pub attrs: BTreeMap<String, ScimSimpleAttr>,
@@ -128,13 +128,24 @@ impl Into<Value> for ScimComplexAttr {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(try_from = "Value", into = "Value")]
 pub enum ScimAttr {
     SingleSimple(ScimSimpleAttr),
     SingleComplex(ScimComplexAttr),
     MultiSimple(Vec<ScimSimpleAttr>),
     MultiComplex(Vec<ScimComplexAttr>),
+}
+
+impl ScimAttr {
+    pub fn len(&self) -> usize {
+        match self {
+            ScimAttr::SingleSimple(_) |
+            ScimAttr::SingleComplex(_) => 1,
+            ScimAttr::MultiSimple(a) => a.len(),
+            ScimAttr::MultiComplex(a) => a.len(),
+        }
+    }
 }
 
 impl TryFrom<Value> for ScimAttr {
@@ -198,7 +209,7 @@ struct ScimMetaRaw {
     version: String,
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(try_from = "ScimMetaRaw", into = "ScimMetaRaw")]
 pub struct ScimMeta {
     resource_type: String,
@@ -264,7 +275,7 @@ impl Into<ScimMetaRaw> for ScimMeta {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct ScimEntry {
     pub schemas: Vec<String>,

@@ -10,6 +10,9 @@
 #![deny(clippy::needless_pass_by_value)]
 #![deny(clippy::trivially_copy_pass_by_ref)]
 
+#[macro_use]
+extern crate lalrpop_util;
+
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use time::OffsetDateTime;
@@ -27,6 +30,7 @@ pub mod constants;
 pub mod error;
 pub mod group;
 pub mod user;
+pub mod filter;
 
 pub mod prelude {
     pub use crate::{ScimEntry, ScimAttr, ScimSimpleAttr, ScimMeta, ScimComplexAttr};
@@ -305,4 +309,6 @@ mod tests {
         let s = serde_json::to_string_pretty(&u).expect("Failed to serialise RFC7643_USER");
         eprintln!("{}", s);
     }
+
+
 }

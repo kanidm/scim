@@ -10,9 +10,6 @@
 #![deny(clippy::needless_pass_by_value)]
 #![deny(clippy::trivially_copy_pass_by_ref)]
 
-#[macro_use]
-extern crate lalrpop_util;
-
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use time::OffsetDateTime;
@@ -28,14 +25,14 @@ use serde_json::Value;
 pub mod macros;
 pub mod constants;
 pub mod error;
+pub mod filter;
 pub mod group;
 pub mod user;
-pub mod filter;
 
 pub mod prelude {
-    pub use crate::{ScimEntry, ScimAttr, ScimSimpleAttr, ScimMeta, ScimComplexAttr};
     pub use crate::constants::*;
     pub use crate::error::*;
+    pub use crate::{ScimAttr, ScimComplexAttr, ScimEntry, ScimMeta, ScimSimpleAttr};
 }
 
 use crate::error::*;
@@ -144,8 +141,7 @@ pub enum ScimAttr {
 impl ScimAttr {
     pub fn len(&self) -> usize {
         match self {
-            ScimAttr::SingleSimple(_) |
-            ScimAttr::SingleComplex(_) => 1,
+            ScimAttr::SingleSimple(_) | ScimAttr::SingleComplex(_) => 1,
             ScimAttr::MultiSimple(a) => a.len(),
             ScimAttr::MultiComplex(a) => a.len(),
         }
@@ -309,6 +305,4 @@ mod tests {
         let s = serde_json::to_string_pretty(&u).expect("Failed to serialise RFC7643_USER");
         eprintln!("{}", s);
     }
-
-
 }

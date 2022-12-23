@@ -11,10 +11,8 @@ homepage.workspace = true
 repository.workspace = true
 
 [dependencies]
-
 base64urlsafedata.workspace = true
-lalrpop-util = { workspace = true, features = ["lexer"] }
-regex.workspace = true
+peg.workspace = true
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
 time = { workspace = true, features = ["std", "serde"] }
@@ -22,7 +20,4 @@ tracing = { workspace = true, features = ["attributes"] }
 tracing-subscriber.workspace = true
 url = { workspace = true, features = ["serde"] }
 uuid = { workspace = true, features = ["serde"] }
-
-[build-dependencies]
-lalrpop.workspace = true
 

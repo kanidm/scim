@@ -222,7 +222,6 @@ macro_rules! set_string {
     };
 }
 
-
 #[macro_export]
 macro_rules! set_option_string {
     ($value_attrs:expr, $key:expr, $val:expr) => {

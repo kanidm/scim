@@ -23,6 +23,7 @@ keywords = ["scim", "protocol", "authentication", "chaos"]
 base64urlsafedata = "0.1.0"
 serde = "^1.0.142"
 serde_json = "^1.0.86"
+peg = "0.8"
 # Pinned due to higher versions removing ability to detect local timezone
 time = "=0.2.27"
 tracing = { version = "^0.1.37" }

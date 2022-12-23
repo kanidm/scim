@@ -11,8 +11,8 @@ homepage.workspace = true
 repository.workspace = true
 
 [dependencies]
-
 base64urlsafedata.workspace = true
+peg.workspace = true
 serde = { workspace = true, features = ["derive"] }
 serde_json.workspace = true
 time = { workspace = true, features = ["std", "serde"] }

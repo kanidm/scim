@@ -25,13 +25,14 @@ use serde_json::Value;
 pub mod macros;
 pub mod constants;
 pub mod error;
+pub mod filter;
 pub mod group;
 pub mod user;
 
 pub mod prelude {
-    pub use crate::{ScimEntry, ScimAttr, ScimSimpleAttr, ScimMeta, ScimComplexAttr};
     pub use crate::constants::*;
     pub use crate::error::*;
+    pub use crate::{ScimAttr, ScimComplexAttr, ScimEntry, ScimMeta, ScimSimpleAttr};
 }
 
 use crate::error::*;
@@ -140,8 +141,7 @@ pub enum ScimAttr {
 impl ScimAttr {
     pub fn len(&self) -> usize {
         match self {
-            ScimAttr::SingleSimple(_) |
-            ScimAttr::SingleComplex(_) => 1,
+            ScimAttr::SingleSimple(_) | ScimAttr::SingleComplex(_) => 1,
             ScimAttr::MultiSimple(a) => a.len(),
             ScimAttr::MultiComplex(a) => a.len(),
         }

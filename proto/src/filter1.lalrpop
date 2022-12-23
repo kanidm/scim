@@ -2,14 +2,18 @@
 use crate::filter::ScimFilter;
 use lalrpop_util::ParseError;
 
+// See https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2
 
 grammar;
 
-
-// See https://datatracker.ietf.org/doc/html/rfc7644#section-3.4.2.2
-
-
-
+/*
+match {
+    r"[a-zA-Z][a-zA-Z0-9\-_]*"
+} else {
+    r"[a-zA-Z0-9\-_]+",
+    _
+}
+*/
 
 pub(crate) AttrExp: ScimFilter = {
     <a:AttrPath> "pr" => ScimFilter::Present(a),

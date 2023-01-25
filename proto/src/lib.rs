@@ -33,6 +33,7 @@ pub mod prelude {
     pub use crate::constants::*;
     pub use crate::error::*;
     pub use crate::{ScimAttr, ScimComplexAttr, ScimEntry, ScimMeta, ScimSimpleAttr};
+    pub use serde_json::value::Number as ScimNumber;
 }
 
 use crate::error::*;

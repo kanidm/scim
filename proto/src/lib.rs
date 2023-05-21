@@ -232,16 +232,21 @@ impl TryFrom<ScimMetaRaw> for ScimMeta {
             version,
         } = value;
 
-        let last_modified =
-            OffsetDateTime::parse(&last_modified, time::Format::Rfc3339).map_err(|e| {
-                debug!(?e);
-                ScimError::InvalidAttribute
-            })?;
-
-        let created = OffsetDateTime::parse(&created, time::Format::Rfc3339).map_err(|e| {
+        let last_modified = OffsetDateTime::parse(
+            &last_modified,
+            &time::format_description::well_known::Rfc3339,
+        )
+        .map_err(|e| {
             debug!(?e);
             ScimError::InvalidAttribute
         })?;
+
+        let created =
+            OffsetDateTime::parse(&created, &time::format_description::well_known::Rfc3339)
+                .map_err(|e| {
+                    debug!(?e);
+                    ScimError::InvalidAttribute
+                })?;
 
         Ok(ScimMeta {
             resource_type,
@@ -263,8 +268,14 @@ impl Into<ScimMetaRaw> for ScimMeta {
             version,
         } = self;
 
-        let last_modified = last_modified.format(time::Format::Rfc3339);
-        let created = created.format(time::Format::Rfc3339);
+        #[allow(clippy::expect_used)]
+        let last_modified = last_modified
+            .format(&time::format_description::well_known::Rfc3339)
+            .expect("Failed to format local time into RFC3339");
+        #[allow(clippy::expect_used)]
+        let created = created
+            .format(&time::format_description::well_known::Rfc3339)
+            .expect("Failed to format local time into RFC3339");
 
         ScimMetaRaw {
             resource_type,

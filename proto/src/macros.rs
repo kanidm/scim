@@ -105,7 +105,7 @@ macro_rules! get_option_single_datetime {
             .remove($key)
             .map(|v| match v {
                 ScimAttr::SingleSimple(ScimSimpleAttr::String(t)) => {
-                    OffsetDateTime::parse(&t, time::Format::Rfc3339).map_err(|e| {
+                    OffsetDateTime::parse(&t, &time::format_description::well_known::Rfc3339).map_err(|e| {
                         debug!(?e);
                         ScimError::InvalidAttribute
                     })

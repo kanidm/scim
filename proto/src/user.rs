@@ -183,12 +183,12 @@ impl fmt::Display for Timezone {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-struct MultiValueAttr {
-    type_: Option<String>,
-    primary: Option<bool>,
-    display: Option<String>,
-    ref_: Option<Url>,
-    value: String,
+pub struct MultiValueAttr {
+    pub type_: Option<String>,
+    pub primary: Option<bool>,
+    pub display: Option<String>,
+    pub ref_: Option<Url>,
+    pub value: String,
 }
 
 impl TryFrom<ScimComplexAttr> for MultiValueAttr {

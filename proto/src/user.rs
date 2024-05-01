@@ -1,7 +1,7 @@
 use crate::constants::*;
 use crate::error::*;
 use crate::{ScimAttr, ScimComplexAttr, ScimEntry, ScimMeta, ScimSimpleAttr};
-use base64urlsafedata::Base64UrlSafeData;
+use base64::{engine::general_purpose::STANDARD, Engine as _};
 use std::collections::BTreeMap;
 use std::fmt;
 use url::Url;
@@ -326,7 +326,7 @@ struct Binary {
     primary: Option<bool>,
     display: Option<String>,
     ref_: Option<Url>,
-    value: Base64UrlSafeData,
+    value: Vec<u8>,
 }
 
 impl TryFrom<ScimComplexAttr> for Binary {
@@ -341,7 +341,7 @@ impl TryFrom<ScimComplexAttr> for Binary {
             value,
         } = MultiValueAttr::try_from(sca)?;
 
-        let value = Base64UrlSafeData::try_from(value.as_str()).map_err(|e| {
+        let value = STANDARD.decode(value.as_str()).map_err(|e| {
             debug!(?e);
             ScimError::InvalidAttribute
         })?;
@@ -386,7 +386,7 @@ impl Into<ScimComplexAttr> for Binary {
 
         attrs.insert(
             "value".to_string(),
-            ScimSimpleAttr::String(value.to_string()),
+            ScimSimpleAttr::String(STANDARD.encode(&value)),
         );
 
         ScimComplexAttr { attrs }

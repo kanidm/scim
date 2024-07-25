@@ -20,7 +20,7 @@ repository = "https://github.com/kanidm/scim/"
 keywords = ["scim", "protocol", "authentication", "chaos"]
 
 [workspace.dependencies]
-base64 = "0.22"
+base64urlsafedata = "0.5.0"
 serde = "^1.0.142"
 serde_json = "^1.0.86"
 peg = "0.8"

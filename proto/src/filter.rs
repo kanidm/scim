@@ -37,6 +37,26 @@ pub enum ScimFilter {
     LessOrEqual(AttrPath, Value),
 }
 
+impl ToString for ScimFilter {
+    fn to_string(&self) -> String {
+        match self {
+            Self::And(this, that) => format!("({} and {})", this.to_string(), that.to_string()),
+            Self::Contains(a, v) => format!("({} co {v})", a.to_string()),
+            Self::EndsWith(a, v) => format!("({} ew {v})", a.to_string()),
+            Self::Equal(a, v) => format!("({} eq {v})", a.to_string()),
+            Self::Greater(a, v) => format!("({} gt {v})", a.to_string()),
+            Self::GreaterOrEqual(a, v) => format!("({} ge {v})", a.to_string()),
+            Self::Less(a, v) => format!("({} lt {v})", a.to_string()),
+            Self::LessOrEqual(a, v) => format!("({} le {v})", a.to_string()),
+            Self::Not(this) => format!("(not ({}))", this.to_string()),
+            Self::NotEqual(a, v) => format!("({} ne {v})", a.to_string()),
+            Self::Or(this, that) => format!("({} or {})", this.to_string(), that.to_string()),
+            Self::Present(a) => format!("({} pr)", a.to_string()),
+            Self::StartsWith(a, v) => format!("({} sw {v})", a.to_string()),
+        }
+    }
+}
+
 // separator()* "(" e:term() ")" separator()* { e }
 
 peg::parser! {
